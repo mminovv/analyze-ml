@@ -1,0 +1,65 @@
+version: '3.8'
+
+networks:
+  ml-analyze-network:
+    driver: bridge
+
+x-app-template: &app-defaults
+  restart: always
+  networks:
+    - ml-analyze-network
+  env_file:
+    - .env
+
+services:
+  postgres:
+    <<: *app-defaults
+    image: "postgres:14.1-alpine"
+    hostname: postgresql
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5428:5432"
+
+  redis:
+    <<: *app-defaults
+    image: "redis:7.2.4-alpine"
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
+
+
+  analyze_app:
+    <<: *app-defaults
+    container_name: analyze_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PYTHON_VERSION=3.11
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    <<: *app-defaults
+    container_name: worker-arq
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "arq src.app._arq.WorkerSettings"
+    depends_on:
+      - redis
+      - postgres
+
+volumes:
+  postgres-data:
+  cache:
