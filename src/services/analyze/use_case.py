@@ -12,6 +12,7 @@ from fastapi import UploadFile
 from src.core.path import LABELS_PATH, MODEL_PATH
 from src.infra.db.models.analyze import AnalyzeHistory
 from src.interfaces.repositories.db.analyze_history import AnalyzeHistoryRepository
+from src.services.analyze.exceptions import NotFoundHistory, NoVideoStream
 
 
 class AnalyzeService:
@@ -33,7 +34,7 @@ class AnalyzeService:
         video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
 
         if video_stream is None:
-            raise ValueError('No video stream found')
+            raise NoVideoStream
 
         width = int(video_stream['width'])
         height = int(video_stream['height'])
@@ -126,7 +127,7 @@ class GetAnalyzeByRequestIdService:
         analyze_history = await self.analyze_history_repo.get_analyze_by_id(request_id)
 
         if not analyze_history:
-            return dict(detail="Result not found")
+            raise NotFoundHistory
 
         return dict(result=json.loads(analyze_history.result))
 
