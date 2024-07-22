@@ -53,13 +53,7 @@ Development servers:
 uvicorn src.asgi:app --reload --host 0.0.0.0 --port 8000 --log-level debug --reload
 ```
 ### App testing
-
-Add user with balance 100.00 to the database:
-```bash
-make create-user
-```
-
-Check documentation in [swagger](http://127.0.0.1:8000/docs)
+Check documentation in [swagger](http://127.0.0.1:8012/docs)
 
 
 ## Linting and Formatting
