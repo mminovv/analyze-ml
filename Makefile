@@ -3,7 +3,7 @@ help: ## display this help message
 	@grep '^[a-zA-Z]' ${MAKEFILE_LIST} | sort | awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 
 up: ## docker compose build and up
-	docker-compose up --build -d
+	docker-compose up -d --no-deps --build
 
 logs: ## app logs
 	docker logs --follow --timestamps app

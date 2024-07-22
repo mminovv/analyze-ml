@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
 # Set the working directory
 WORKDIR /app
@@ -11,10 +11,7 @@ RUN apt-get update && apt-get install -y \
 
 
 # Copy the application files
-COPY ./app /app/app
-COPY ./efficientnet-lite4-11.onnx /app
-COPY ./labels_map.txt /app
-COPY ./requirements.txt /app
+COPY . /app
 
 # Install the dependencies
 RUN pip install --no-cache-dir -r /app/requirements.txt

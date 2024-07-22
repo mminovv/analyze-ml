@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "analyze"
+name = "analyze-ml-project"
 version = "0.1.0"
 description = ""
 authors = ["Aziz <minovaziz@gmail.com>"]
@@ -8,13 +8,17 @@ package-mode = false
 
 
 [tool.poetry.dependencies]
-python = ">=3.11,<4.0"
+python = ">=3.10,<4.0"
 ffmpeg-python = "^0.2.0"
 numpy = "^1.23.0"  # Ensure compatibility with Python 3.11
 opencv-python-headless = "^4.10.0.84"
 onnxruntime = "^1.14.0"
-fastapi = "^0.68.0"
 uvicorn = "^0.15.0"
+dishka = "^1.2.0"
+sqlalchemy = "^2.0.31"
+fastapi = "^0.111.1"
+pydantic-settings = "^2.3.4"
+arq = "^0.26.0"
 
 
 

@@ -33,8 +33,8 @@ class SessionProviderArq(Provider):
     @provide(scope=Scope.APP)
     async def get_session_maker(self, engine: AsyncEngine) -> async_session_maker:
         return orm.sessionmaker(
-            engine,
             class_=AsyncSession,
+            engine=engine,
             autoflush=False,
             expire_on_commit=False,
         )
@@ -58,8 +58,8 @@ class SessionProvider(Provider):
     @provide(scope=Scope.APP)
     async def get_session_maker(self, engine: AsyncEngine) -> async_session_maker:
         return orm.sessionmaker(
-            engine,
             class_=AsyncSession,
+            engine=engine,
             autoflush=False,
             expire_on_commit=False,
         )
