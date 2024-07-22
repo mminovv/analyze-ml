@@ -11,8 +11,8 @@ from src.infra.di.container import get_arq_container
 logger = logging.getLogger(__name__)
 
 
-def health_check():
-    logger.info('Health check: OK')
+async def health_check():
+    return 'OK'
 
 
 def init_arq_worker(worker: WorkerSettings):
