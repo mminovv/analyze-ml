@@ -1,9 +1,18 @@
+import logging
+
+from arq import cron
 from arq.connections import RedisSettings
 from dishka.integrations.arq import setup_dishka
 
 from src.core.settings import settings
 from src.infra.arq.settings import _WorkerSettings as WorkerSettings  # noqa
 from src.infra.di.container import get_arq_container
+
+logger = logging.getLogger(__name__)
+
+
+def health_check():
+    logger.info('Health check: OK')
 
 
 def init_arq_worker(worker: WorkerSettings):
@@ -13,7 +22,9 @@ def init_arq_worker(worker: WorkerSettings):
         database=settings.REDIS_DB,
 
     )
-    jobs = []
+    jobs = [
+        cron(health_check, second=1)  # noqa
+    ]
     worker.cron_jobs.extend(jobs)
     worker.redis_settings = redis_settings
 
