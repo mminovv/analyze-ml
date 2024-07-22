@@ -19,6 +19,10 @@ sqlalchemy = "^2.0.31"
 fastapi = "^0.111.1"
 pydantic-settings = "^2.3.4"
 arq = "^0.26.0"
+alembic = "^1.13.2"
+psycopg2 = "^2.9.9"
+asyncpg = "^0.29.0"
+aiofiles = "^24.1.0"
 
 
 

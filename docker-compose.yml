@@ -22,18 +22,6 @@ services:
     ports:
       - "5428:5432"
 
-  redis-ml-analyze:
-    <<: *app-defaults
-    image: "redis:7.2.4-alpine"
-    container_name: redis-ml-analyze
-    restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning
-    volumes:
-      - cache-data-ml-analyze:/data
-
-
   analyze_app:
     <<: *app-defaults
     container_name: analyze_app
@@ -46,20 +34,7 @@ services:
     ports:
       - "8012:8000"
     depends_on:
-      - redis-ml-analyze
-      - postgres-ml-analyze
-
-  worker-analyze:
-    <<: *app-defaults
-    container_name: worker-analyze
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: bash -c "arq src.app._arq.WorkerSettings"
-    depends_on:
-      - redis-ml-analyze
       - postgres-ml-analyze
 
 volumes:
   postgres-ml-analyze:
-  cache-data-ml-analyze:
