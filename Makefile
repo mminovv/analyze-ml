@@ -6,13 +6,13 @@ up: ## docker compose build and up
 	docker-compose up -d --no-deps --build
 
 logs: ## app logs
-	docker logs --follow --timestamps app
+	docker logs --follow --timestamps analyze_app
 
 db_logs: ## db logs
-	docker logs --follow --timestamps postgres
+	docker logs --follow --timestamps postgres-ml-analyze
 
 exec: ## exec to app container
-	docker exec -it app bash
+	docker exec -it analyze_app bash
 
 lint: ## lint the code with black
 	black exclude=venv,env,docs,migrations . --check
